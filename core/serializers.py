@@ -15,17 +15,16 @@ class QuestionSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class QuestionnaireSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     class Meta:
         model = Questionnaire
-        fields = ["endDateTime", "startDateTime", "title", "description"]
+        fields = ["endDateTime", "startDateTime", "title", "description", 'id']
 
 
 class QuestionnaireSerializerWithoutStartDate(QuestionnaireSerializer):
     """Use this serializer when dealing with any actions other than create"""
-    class Meta:
-        model = Questionnaire
-        read_only_fields = ["startDateTime", ]
-        fields = ["endDateTime", "startDateTime", "title", "description"]
+    class Meta(QuestionnaireSerializer.Meta):
+        read_only_fields = ["startDateTime", "id"]
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
