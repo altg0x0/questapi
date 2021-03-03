@@ -1,4 +1,4 @@
-from core.models import Questionnaire, Question
+from core.models import *
 
 from django.contrib.auth.models import User
 from rest_framework import serializers
@@ -25,6 +25,12 @@ class QuestionnaireSerializerWithoutStartDate(QuestionnaireSerializer):
     """Use this serializer when dealing with any actions other than create"""
     class Meta(QuestionnaireSerializer.Meta):
         read_only_fields = ["startDateTime", "id"]
+
+
+class QuestionnaireInstanceSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = QuestionnaireInstance
+        fields = ["answers", "userId", "questionnaireId"]
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):

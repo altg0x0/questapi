@@ -23,6 +23,7 @@ from core import views
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'questionnaires', views.QuestionnaireViewSet)
+router.register(r'questionnaire_instances', views.QuestionnaireInstanceViewSet)
 
 questionsRouter = routers.NestedDefaultRouter(router, r'questionnaires', lookup='questionnaire')
 questionsRouter.register(r'questions', views.QuestionViewSet, basename='questionnaire-questions')

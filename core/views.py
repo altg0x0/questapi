@@ -1,15 +1,11 @@
 import datetime
 
+from rest_framework import viewsets, mixins, permissions
+from rest_framework import status
 from rest_framework.response import Response
-from django.contrib.auth.models import User
 
-from rest_framework.decorators import action
-from rest_framework import viewsets
-from rest_framework import permissions
-from core.serializers import UserSerializer, QuestionnaireSerializer, QuestionSerializer,\
-    QuestionnaireSerializerWithoutStartDate
-
-from core.models import Questionnaire, Question
+from core.serializers import *
+from core.models import *
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -25,7 +21,6 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows questionnaires to be viewed or edited.
     """
-    # serializer_class =
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Questionnaire.objects.all()
 
@@ -52,3 +47,15 @@ class QuestionViewSet(viewsets.ModelViewSet):
 
     def get_serializer_context(self):
         return {"questionnaire": Questionnaire.objects.get(pk=self.kwargs['questionnaire_pk'])}
+
+
+class QuestionnaireInstanceViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
+    serializer_class = QuestionnaireInstanceSerializer
+    queryset = QuestionnaireInstance.objects.all().filter(userId__gt=0)
+
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return QuestionnaireInstance.objects.all()
+        if "userId" not in self.request.query_params:
+            return QuestionnaireInstance.objects.none()  # If user sends no id, we'll send them nothing
+        return self.queryset.filter(userId=self.request.query_params["userId"])
