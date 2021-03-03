@@ -1,11 +1,15 @@
 import datetime
 
+from rest_framework.response import Response
 from django.contrib.auth.models import User
+
+from rest_framework.decorators import action
 from rest_framework import viewsets
 from rest_framework import permissions
-from core.serializers import UserSerializer, QuestionnaireSerializer, QuestionnaireSerializerWithoutStartDate
+from core.serializers import UserSerializer, QuestionnaireSerializer, QuestionSerializer,\
+    QuestionnaireSerializerWithoutStartDate
 
-from core.models import Questionnaire
+from core.models import Questionnaire, Question
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -19,7 +23,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class QuestionnaireViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows groups to be viewed or edited.
+    API endpoint that allows questionnaires to be viewed or edited.
     """
     # serializer_class =
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -38,3 +42,13 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
         else:
             return Questionnaire.objects.filter(startDateTime__lte=datetime.datetime.now(),
                                                 endDateTime__gte=datetime.datetime.now())
+
+
+class QuestionViewSet(viewsets.ModelViewSet):
+    serializer_class = QuestionSerializer
+
+    def get_queryset(self):
+        return Questionnaire.objects.get(pk=self.kwargs['questionnaire_pk']).questions.all()
+
+    def get_serializer_context(self):
+        return {"questionnaire": Questionnaire.objects.get(pk=self.kwargs['questionnaire_pk'])}
