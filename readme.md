@@ -53,7 +53,7 @@ Example of params: `
 ___
 `questionnaire_instances`:
 
-POST to send a finished questionnaire. `userId` identidies the user, 0 is considered anonymous
+POST to send a finished questionnaire. `userId` identifies the user, 0 is considered anonymous
 (only admins can view anonymous responses).
 GET with the query parameter `uid=4` (`questionnaire_instances/?uid=4`) to get questionnaires finished 
 by the user with id=4.
@@ -63,4 +63,7 @@ Example of params: `        {
 "userId": 1,
 "questionnaireId": 2
 }
-`
+___
+`api-auth/`:
+
+Auth in app as admin (standard DRF auth)
