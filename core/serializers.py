@@ -7,13 +7,20 @@ from rest_framework import serializers
 class QuestionnaireSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Questionnaire
-        fields = ["startDateTime", "endDateTime", "title", "description"]
+        fields = ["endDateTime", "startDateTime", "title", "description"]
+
+
+class QuestionnaireSerializerWithoutStartDate(QuestionnaireSerializer):
+    """Use this serializer when dealing with any actions other than create"""
+    class Meta:
+        model = Questionnaire
+        read_only_fields = ["startDateTime", ]
+        fields = ["endDateTime", "startDateTime", "title", "description"]
 
 
 class QuestionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Question
-        fields = ["startDateTime", "endDateTime", "title", "description"]
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):

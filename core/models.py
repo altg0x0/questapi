@@ -6,7 +6,7 @@ ANSWER_TEXT_MAX_LENGTH = 10000  # 10k
 
 
 class Questionnaire(models.Model):
-    startDateTime = models.DateTimeField(auto_now_add=True, editable=False)
+    startDateTime = models.DateTimeField()
     endDateTime = models.DateTimeField()
     title = models.CharField(max_length=100, blank=False, default='Unnamed questionnaire')
     description = models.TextField()
