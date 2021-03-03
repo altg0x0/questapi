@@ -40,10 +40,17 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = QuestionSerializer
 
     def get_queryset(self):
-        return Questionnaire.objects.get(pk=self.kwargs['questionnaire_pk']).questions.all()
+        questionnaire = Questionnaire.objects.get(pk=self.kwargs['questionnaire_pk'])
+        if self.request.user.is_staff or \
+                questionnaire.startDateTime < datetime.datetime.now() < questionnaire.endDateTime:
+            return questionnaire.questions.all()
+        else:
+            return questionnaire.questions.none()  # If the questionnaire is unavailable, user won't get any questions
+            # Probably should respond with HTTP Forbidden, but idk
 
     def get_serializer_context(self):
         return {"questionnaire": Questionnaire.objects.get(pk=self.kwargs['questionnaire_pk'])}

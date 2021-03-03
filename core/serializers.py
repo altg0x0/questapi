@@ -7,7 +7,7 @@ from rest_framework import serializers
 class QuestionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Question
-        fields = ["questionText", "questionType", "orderNumber", "answer"]
+        fields = ["questionText", "questionType", "orderNumber", "answer", "id"]
 
     def create(self, validated_data):
         validated_data['questionnaire'] = self.context['questionnaire']
@@ -16,6 +16,7 @@ class QuestionSerializer(serializers.HyperlinkedModelSerializer):
 
 class QuestionnaireSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = Questionnaire
         fields = ["endDateTime", "startDateTime", "title", "description", 'id']
@@ -23,6 +24,7 @@ class QuestionnaireSerializer(serializers.HyperlinkedModelSerializer):
 
 class QuestionnaireSerializerWithoutStartDate(QuestionnaireSerializer):
     """Use this serializer when dealing with any actions other than create"""
+
     class Meta(QuestionnaireSerializer.Meta):
         read_only_fields = ["startDateTime", "id"]
 

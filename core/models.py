@@ -21,7 +21,7 @@ class Question(models.Model):
 
     questionText = models.TextField()
     questionType = models.CharField(max_length=100, choices=QUESTION_TYPE_CHOICES)  # Reasonable max_length
-    orderNumber = models.IntegerField(unique=True)
+    orderNumber = models.IntegerField()
     answer = models.TextField(max_length=ANSWER_TEXT_MAX_LENGTH, blank=True)
     # Use as default answer for creating questionnaires
     # No validation for answers in choice questions, as it was not requested in the task
