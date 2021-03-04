@@ -1,5 +1,5 @@
 This application requires django, django-rest-framework, and drf-nested-routers.
-It was tested using python 3.9.1, django 3.1.7, and drf 3.12.2.
+It was tested using python 3.9.1, django 3.1.7 and 2.2.13, and drf 3.12.2.
 
 To test, clone this repo into workdir. Then from this directory:
 
