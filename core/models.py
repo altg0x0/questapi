@@ -35,7 +35,7 @@ class QuestionnaireInstance(models.Model):
     questionnaireId = models.IntegerField()  # Could use ForeignKey but mo need to, as we don't validate answers anyway
     userId = models.IntegerField()
 
-    answers = models.JSONField(max_length=100000)  # Reasonable choice
+    answers = models.TextField(max_length=100000)  # Reasonable choice
     """ IMPORTANT!
         We store answers as unvalidated JSON because we don't have any way to validate them,
         as we don't know the list of possible answers for choice questions. Thus, if users tamper with their answers,
