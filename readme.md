@@ -3,7 +3,7 @@ It was tested using python 3.9.1, django 3.1.7, and drf 3.12.2.
 
 To test, clone this repo into workdir. Then from this directory:
 
-`python manage.py makemigrations`
+`python manage.py makemigrations core`
 
 `python manage.py migrate`
 
